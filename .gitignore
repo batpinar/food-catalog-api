@@ -1,0 +1,8 @@
+# Node.js dosyaları
+node_modules/
+
+# Çevre değişkenleri dosyası
+.env
+
+# Derleme çıktıları
+/dist
