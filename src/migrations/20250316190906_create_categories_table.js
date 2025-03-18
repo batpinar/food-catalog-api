@@ -1,7 +1,6 @@
 export async function up (knex) {
     await knex.schema.createTable('categories', (table) =>{
       table.increments('id').primary();
-      table.integer('category_id')
       table.string('name').notNullable();
       table.text('description').notNullable();
       table.timestamp('created_at').defaultTo(knex.fn.now());
