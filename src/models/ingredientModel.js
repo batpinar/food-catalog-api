@@ -5,19 +5,19 @@ export const getAllIngredients = () => {
     return query;
 }
 
-export const getIngredientById = (id: number) => {
+export const getIngredientById = (id) => {
     return db('ingredients').where({ id }).first();
 }
 
-export const createIngredient = (data: object) => {
+export const createIngredient = (data) => {
     return db('ingredients').insert(data).returning('*');
 }
 
-export const updateIngredient = (id: number, data: object) => {
-    return db('ingredients').where({ id }).update(data).returning('*');
+export const updateIngredient = (id, data) => {
+    return db('ingredients').where({ id }).update({ ...data, updated_at: new Date() }).returning('*');
 }
 
-export const deleteIngredient = (id: number) => {
+export const deleteIngredient = (id) => {
     return db('ingredients').where({ id }).update({ deleted_at: new Date() }).returning('*');
 
 }

@@ -1,7 +1,7 @@
 import db from '../config/database.js';
 import { SHOW_DELETED_OPTIONS } from '../constants.js';
 
-export const getAllCategories = (showDeleted:string) => {
+export const getAllCategories = (showDeleted) => {
     const query = db('categories')
     if (showDeleted === SHOW_DELETED_OPTIONS.ONLY_DELETED) {
         query.whereNotNull('deleted_at') // Silinmiş kayıtları getir
@@ -11,19 +11,19 @@ export const getAllCategories = (showDeleted:string) => {
     return query // default 
 }
 
-export const getCategoryById = (id: number) => {
+export const getCategoryById = (id) => {
     return db('categories').where({ id, deleted_at: null }).first();
 }
 
-export const createCategory = (data: object) => {
+export const createCategory = (data) => {
     return db('categories').insert(data).returning('*');
 }
 
-export const updateCategory = (id: number, data: object) => {
-    return db('categories').where({ id }).update(data).returning('*');
+export const updateCategory = (id, data) => {
+    return db('categories').where({ id }).update({ ...data, updated_at: new Date() }).returning('*');
 }
 
-export const deleteCategory = (id: number) => {
+export const deleteCategory = (id) => {
     return db('categories').where({ id }).update({ deleted_at: new Date() }).returning('*');
 
 }

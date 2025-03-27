@@ -2,7 +2,7 @@ import db from '../config/database.js';
 import { SHOW_DELETED_OPTIONS, POST_STATUS } from '../constants.js';
 
 
-export const getAllProducts = (showDeleted?: string, category?: number) => {
+export const getAllProducts = (showDeleted, category) => {
     const query = db('products')
 
     if (category) {
@@ -17,19 +17,18 @@ export const getAllProducts = (showDeleted?: string, category?: number) => {
     return query
 }
 
-export const getProductById = (id: number) => {
+export const getProductById = (id) => {
     return db('products').where({ id, deleted_at: null }).first();
 }
 
-export const createProduct = (data: object) => {
+export const createProduct = (data) => {
     return db('products').insert(data).returning('*');
 }
 
-export const updateProduct = (id: number, data: object) => {
-    return db('products').where({ id }).update(data).returning('*');
+export const updateProduct = (id, data) => {
+    return db('products').where({ id }).update({ ...data, updated_at: new Date() }).returning('*');
 }
 
-export const deleteProduct = (id: number) => {
+export const deleteProduct = (id) => {
     return db('products').where({ id }).update({ deleted_at: new Date() }).returning('*');
-
 }

@@ -1,9 +1,11 @@
-import { Request, Response } from "express";
-import { getAllIngredients, getIngredientById, createIngredient, updateIngredient, deleteIngredient } from "../models/ingredientModel.js";
+import express from "express";
+import { getAllProducts, getProductById, createProduct, updateProduct, deleteProduct } from "../models/productModel.js";
 
-export const listIngredients = async (req: Request, res: Response) => {
+
+export const listProducts = async (req, res) => {
     try {
-        const dbData = await getAllIngredients();
+        const {showDeleted, category} = req.query
+        const dbData = await getAllProducts(showDeleted, category);
         res.json(dbData);
     } catch (error) {
         console.log(error);
@@ -11,10 +13,10 @@ export const listIngredients = async (req: Request, res: Response) => {
     }
 }
 
-export const getIngredient = async (req: Request, res: Response) => {
+export const getProduct = async (req, res) => {
     const { id } = req.params;
     try {
-        const dbData = await getIngredientById(Number(id));
+        const dbData = await getProductById(id);
         if (dbData) {
             res.json(dbData);
         } else {
@@ -26,9 +28,9 @@ export const getIngredient = async (req: Request, res: Response) => {
     }
 }
 
-export const addIngredient = async (req: Request, res: Response) => {
+export const addProduct = async (req, res) => {
     try {
-        const newData =  await createIngredient(req.body)
+        const newData =  await createProduct(req.body)
         res.status(202).json(newData);
     } catch (error) {
         console.log(error);
@@ -36,10 +38,10 @@ export const addIngredient = async (req: Request, res: Response) => {
     }
 }
 
-export const editIngredient = async (req:Request, res:Response) =>{
+export const editProduct = async (req, res) =>{
     const { id } = req.params;
     try {
-        const updateData = await updateIngredient(Number(id), req.body)
+        const updateData = await updateProduct(id, req.body)
         res.json(updateData)
     } catch (error) {
         console.log(error);
@@ -47,10 +49,10 @@ export const editIngredient = async (req:Request, res:Response) =>{
     }
 }
 
-export const removeIngredient = async (req: Request, res: Response) => {
+export const removeProduct = async (req, res) => {
     const {id} = req.params
     try {
-        const deleteData = await deleteIngredient(Number(id));
+        const deleteData = await deleteProduct(id);
         res.json(deleteData)
     } catch (error) {
         console.log(error);

@@ -1,10 +1,9 @@
-import { Request, Response } from "express";
-import { getAllCategories, getCategoryById, createCategory, updateCategory, deleteCategory } from "../models/categoryModel.js";
+import express from "express";
+import { getAllIngredients, getIngredientById, createIngredient, updateIngredient, deleteIngredient } from "../models/ingredientModel.js";
 
-export const listCategories = async (req: Request, res: Response) => {
+export const listIngredients = async (req, res) => {
     try {
-        const { showDeleted } = req.query;
-        const dbData = await getAllCategories(showDeleted as string);
+        const dbData = await getAllIngredients();
         res.json(dbData);
     } catch (error) {
         console.log(error);
@@ -12,10 +11,10 @@ export const listCategories = async (req: Request, res: Response) => {
     }
 }
 
-export const getCategory = async (req: Request, res: Response) => {
+export const getIngredient = async (req, res) => {
     const { id } = req.params;
     try {
-        const dbData = await getCategoryById(Number(id));
+        const dbData = await getIngredientById(id);
         if (dbData) {
             res.json(dbData);
         } else {
@@ -27,9 +26,9 @@ export const getCategory = async (req: Request, res: Response) => {
     }
 }
 
-export const addCategory = async (req: Request, res: Response) => {
+export const addIngredient = async (req, res) => {
     try {
-        const newData =  await createCategory(req.body)
+        const newData =  await createIngredient(req.body)
         res.status(202).json(newData);
     } catch (error) {
         console.log(error);
@@ -37,10 +36,10 @@ export const addCategory = async (req: Request, res: Response) => {
     }
 }
 
-export const editCategory = async (req:Request, res:Response) =>{
+export const editIngredient = async (req, res) =>{
     const { id } = req.params;
     try {
-        const updateData = await updateCategory(Number(id), req.body)
+        const updateData = await updateIngredient(id, req.body)
         res.json(updateData)
     } catch (error) {
         console.log(error);
@@ -48,10 +47,10 @@ export const editCategory = async (req:Request, res:Response) =>{
     }
 }
 
-export const removeCategory = async (req: Request, res: Response) => {
+export const removeIngredient = async (req, res) => {
     const {id} = req.params
     try {
-        const deleteData = await deleteCategory(Number(id));
+        const deleteData = await deleteIngredient(id);
         res.json(deleteData)
     } catch (error) {
         console.log(error);
